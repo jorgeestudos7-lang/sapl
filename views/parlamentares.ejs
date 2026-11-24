@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+<div class="clearfix mb-3">
+  <h1 class="page-header">Parlamentares</h1>
+  <p class="text-muted">Consulte os vereadores e vereadoras por legislatura ou pesquise pelo nome parlamentar.</p>
+</div>
+
+<div id="app2" class="lista-parlamentares">
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row align-items-end">
+        <div class="col-md-5 mb-2" v-if="!is_pesquisa">
+          <label for="legislatura_select" class="font-weight-bold mb-1">Legislatura</label>
+          <select id="legislatura_select" class="form-control" v-model="legislatura_selecionada" @change="getParlamentares">
+            <option v-for="l in legislaturas" :key="l.id" :value="l.id">[[ l.__str__ ]]</option>
+          </select>
+        </div>
+        <div class="col-md-5 mb-2" v-else>
+          <label for="nome_pesquisa_input" class="font-weight-bold mb-1">Nome do Parlamentar</label>
+          <input id="nome_pesquisa_input" type="text" class="form-control" v-model="nome_pesquisa" placeholder="Digite o nome do parlamentar...">
+        </div>
+
+        <div class="col-md-4 mb-2" v-if="!is_pesquisa">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="filterAtivo" v-model="filter_ativo" @change="checkTitularAtivo">
+            <label class="form-check-label" for="filterAtivo">Apenas Ativos</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="filterTitular" v-model="filter_titular" @change="checkTitularAtivo">
+            <label class="form-check-label" for="filterTitular">Apenas Titulares</label>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-2 text-md-right">
+          <button type="button" class="btn btn-outline-primary btn-sm" @click="pesquisaChange">
+            <i class="fas fa-search mr-1"></i>
+            <span v-if="!is_pesquisa">Pesquisar por Nome</span>
+            <span v-else>Filtrar por Legislatura</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-muted mb-2">Total encontrado: <strong>[[ size_parlamentares ]]</strong> parlamentar(es)</p>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover bg-white">
+      <thead class="thead-light">
+        <tr>
+          <th style="width: 72px;">Foto</th>
+          <th>Nome Parlamentar</th>
+          <th>Partido</th>
+          <th>Titular</th>
+          <th>Situação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="p in visible_parlamentares" :key="p.id">
+          <td>
+            <img :src="p.fotografia_cropped || '/static/sapl/frontend/img/avatar.png'" :alt="p.nome_parlamentar" class="rounded" style="width: 48px; height: 48px; object-fit: cover;">
+          </td>
+          <td>
+            <a :href="p.link_detail_backend || ('/parlamentar/' + p.id)" class="font-weight-bold">[[ p.nome_parlamentar ]]</a>
+            <div class="small text-muted">[[ p.nome_completo ]]</div>
+          </td>
+          <td><span class="badge badge-secondary">[[ p.partido ]]</span></td>
+          <td>[[ p.titular ]]</td>
+          <td>
+            <span v-if="p.ativo" class="badge badge-success">Ativo</span>
+            <span v-else class="badge badge-light border">Inativo</span>
+          </td>
+        </tr>
+        <tr v-if="visible_parlamentares.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">Nenhum parlamentar encontrado para o filtro selecionado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('partials/footer', { extraJs: '/static/sapl/frontend/js/parlamentar.f63027a7.js' }) %>

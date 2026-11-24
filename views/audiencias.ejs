@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<h1 class="page-header">Audiências Públicas</h1>
+<p class="text-muted">Agenda e registro das audiências públicas realizadas pela Casa Legislativa.</p>
+
+<div class="list-group">
+  <% audiencias.forEach(a => { %>
+    <div class="list-group-item">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <h5 class="mb-0">Audiência Pública nº <%= a.numero %>/<%= a.ano %> — <%= a.nome %></h5>
+        <span class="badge badge-primary"><%= a.tipo %></span>
+      </div>
+      <p class="mb-1"><%= a.observacao %></p>
+      <small class="text-muted">
+        Data: <strong><%= a.data %></strong> • Horário: <%= a.hora_inicio %> às <%= a.hora_fim %>
+        <% if (a.materia) { %>
+          • Matéria relacionada: <a href="/materia/<%= a.materia.id %>"><%= a.materia.tipo_sigla %> <%= a.materia.numero %>/<%= a.materia.ano %></a>
+        <% } %>
+      </small>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('partials/footer') %>

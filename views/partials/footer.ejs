@@ -1,0 +1,27 @@
+  </main>
+
+  <footer class="footer">
+    <div class="container pb-3">
+      <div class="row align-items-center">
+        <div class="col-md-4 text-md-left mb-2 mb-md-0">
+          <img src="/static/sapl/frontend/img/logo_interlegis.png" alt="Interlegis" style="height: 40px;">
+        </div>
+        <div class="col-md-4">
+          <p class="mb-1"><strong><%= casa.nome %></strong> — <%= casa.municipio %>/<%= casa.uf %></p>
+          <p class="small mb-0"><%= casa.endereco %> • Tel: <%= casa.telefone %></p>
+        </div>
+        <div class="col-md-4 text-md-right mt-2 mt-md-0">
+          <p class="small mb-0">SAPL <%= casa.versao %></p>
+          <p class="small mb-0"><a href="/api/parlamentares/parlamentar/?get_all=true" class="text-light">API REST</a> • <a href="/healthz" class="text-light">Status</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/sapl/frontend/js/chunk-vendors.f2d6067d.js"></script>
+  <script src="/static/sapl/frontend/js/global.d557d20c.js"></script>
+  <% if (typeof extraJs !== 'undefined' && extraJs) { %>
+    <script src="<%= extraJs %>"></script>
+  <% } %>
+</body>
+</html>

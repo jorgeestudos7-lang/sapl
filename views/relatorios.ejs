@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<h1 class="page-header">Relatórios e Estatísticas</h1>
+<p class="text-muted">Resumo quantitativo da atividade legislativa cadastrada no SAPL.</p>
+
+<div class="row mb-4">
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.parlamentares %></div>
+        <div class="small text-muted">Parlamentares Ativos</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.comissoes %></div>
+        <div class="small text-muted">Comissões Ativas</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.materias %></div>
+        <div class="small text-muted">Matérias</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.materiasEmTramitacao %></div>
+        <div class="small text-muted">Em Tramitação</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.normas %></div>
+        <div class="small text-muted">Normas Jurídicas</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-6 mb-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <div class="h3 mb-0"><%= totais.sessoes %></div>
+        <div class="small text-muted">Sessões Plenárias</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header font-weight-bold">Matérias por Tipo</div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>Sigla</th><th>Descrição</th><th class="text-right">Total</th></tr></thead>
+        <tbody>
+          <% materiasPorTipo.forEach(item => { %>
+            <tr><td><%= item.sigla %></td><td><%= item.descricao %></td><td class="text-right font-weight-bold"><%= item.total %></td></tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header font-weight-bold">Normas Jurídicas por Tipo</div>
+      <table class="table table-sm mb-0">
+        <thead><tr><th>Sigla</th><th>Descrição</th><th class="text-right">Total</th></tr></thead>
+        <tbody>
+          <% normasPorTipo.forEach(item => { %>
+            <tr><td><%= item.sigla %></td><td><%= item.descricao %></td><td class="text-right font-weight-bold"><%= item.total %></td></tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

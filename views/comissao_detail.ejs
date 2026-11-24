@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/">Início</a></li>
+    <li class="breadcrumb-item"><a href="/comissao/">Comissões</a></li>
+    <li class="breadcrumb-item active"><%= comissao.sigla %></li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h1 class="h2 mb-2"><%= comissao.sigla %> — <%= comissao.nome %></h1>
+    <p class="mb-2"><%= comissao.finalidade %></p>
+    <div class="small text-muted">
+      Natureza: <strong><%= comissao.tipo %></strong> •
+      Agenda: <strong><%= comissao.agenda_reuniao %></strong> •
+      Local: <strong><%= comissao.local_reuniao %></strong>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Composição</div>
+      <ul class="list-group list-group-flush">
+        <% membros.forEach(m => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <% if (m.parlamentar) { %>
+                <a href="/parlamentar/<%= m.parlamentar.id %>" class="font-weight-bold"><%= m.parlamentar.nome_parlamentar %></a>
+                <span class="text-muted small">(<%= m.parlamentar.partido %>)</span>
+              <% } %>
+            </div>
+            <span class="badge badge-info"><%= m.cargo %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Matérias em Tramitação</div>
+      <ul class="list-group list-group-flush">
+        <% materiasTramitacao.forEach(m => { %>
+          <li class="list-group-item">
+            <a href="/materia/<%= m.id %>" class="font-weight-bold"><%= m.tipo_sigla %> <%= m.numero %>/<%= m.ano %></a>
+            <div class="small text-muted"><%= m.ementa %></div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

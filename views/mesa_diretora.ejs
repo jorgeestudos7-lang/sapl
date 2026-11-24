@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+
+<h1 class="page-header">Mesa Diretora</h1>
+<p class="text-muted">Composição da Mesa Diretora por Sessão Legislativa.</p>
+
+<form method="GET" action="/mesa-diretora/" class="form-inline mb-4">
+  <label for="sessao_legislativa" class="mr-2 font-weight-bold">Sessão Legislativa:</label>
+  <select id="sessao_legislativa" name="sessao_legislativa" class="form-control mr-2" onchange="this.form.submit()">
+    <% sessoesLegislativas.forEach(s => { %>
+      <option value="<%= s.id %>" <%= s.id === sessaoLeg.id ? 'selected' : '' %>><%= s.__str__ %></option>
+    <% }) %>
+  </select>
+</form>
+
+<div class="row">
+  <% composicao.forEach(item => { %>
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-header font-weight-bold bg-light"><%= item.cargo %></div>
+        <div class="card-body">
+          <% if (item.parlamentar) { %>
+            <img src="<%= item.parlamentar.fotografia %>" alt="<%= item.parlamentar.nome_parlamentar %>" class="rounded-circle mb-2" style="width: 72px; height: 72px; object-fit: cover;">
+            <h5 class="card-title mb-1">
+              <a href="/parlamentar/<%= item.parlamentar.id %>"><%= item.parlamentar.nome_parlamentar %></a>
+            </h5>
+            <span class="badge badge-secondary"><%= item.parlamentar.partido %></span>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('partials/footer') %>

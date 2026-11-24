@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/">Início</a></li>
+    <li class="breadcrumb-item"><a href="/parlamentar/">Parlamentares</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= parlamentar.nome_parlamentar %></li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="col-md-2 text-center mb-3 mb-md-0">
+        <img src="<%= parlamentar.fotografia %>" alt="<%= parlamentar.nome_parlamentar %>" class="img-thumbnail" style="max-width: 140px;">
+      </div>
+      <div class="col-md-10">
+        <h1 class="h2 mb-1"><%= parlamentar.nome_parlamentar %></h1>
+        <p class="text-muted mb-2"><%= parlamentar.nome_completo %> • Partido: <strong><%= parlamentar.partido %></strong></p>
+        <p class="mb-2"><%= parlamentar.biografia %></p>
+        <div class="small text-muted">
+          Gabinete: <strong><%= parlamentar.numero_gab_parlamentar %></strong> •
+          Telefone: <strong><%= parlamentar.telefone %></strong> •
+          E-mail: <strong><%= parlamentar.email %></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Participação em Comissões</div>
+      <ul class="list-group list-group-flush">
+        <% if (comissoesMembro.length === 0) { %>
+          <li class="list-group-item text-muted">Nenhuma participação registrada.</li>
+        <% } else { %>
+          <% comissoesMembro.forEach(item => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="/comissao/<%= item.comissao.id %>"><%= item.comissao.sigla %> — <%= item.comissao.nome %></a>
+              <span class="badge badge-primary"><%= item.cargo %></span>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Matérias de Autoria</div>
+      <ul class="list-group list-group-flush">
+        <% if (materiasAutoria.length === 0) { %>
+          <li class="list-group-item text-muted">Nenhuma matéria cadastrada.</li>
+        <% } else { %>
+          <% materiasAutoria.forEach(m => { %>
+            <li class="list-group-item">
+              <a href="/materia/<%= m.id %>" class="font-weight-bold"><%= m.tipo_sigla %> <%= m.numero %>/<%= m.ano %></a>
+              <div class="small text-muted"><%= m.ementa %></div>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

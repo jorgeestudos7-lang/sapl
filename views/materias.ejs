@@ -1,0 +1,110 @@
+<%- include('partials/header') %>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="page-header mb-1">Matérias Legislativas</h1>
+    <p class="text-muted mb-0">Pesquisa e cadastro de proposições legislativas em tramitação.</p>
+  </div>
+  <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#novaMateriaForm">
+    <i class="fas fa-plus mr-1"></i> Nova Matéria
+  </button>
+</div>
+
+<div class="collapse mb-4" id="novaMateriaForm">
+  <div class="card border-success">
+    <div class="card-header bg-success text-white font-weight-bold">Cadastrar Matéria Legislativa</div>
+    <div class="card-body">
+      <form method="POST" action="/materia/create">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <label class="font-weight-bold">Tipo de Matéria</label>
+            <select name="tipo_id" class="form-control">
+              <% tiposMateria.forEach(t => { %>
+                <option value="<%= t.id %>"><%= t.sigla %> — <%= t.descricao %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-md-2 mb-2">
+            <label class="font-weight-bold">Número</label>
+            <input type="number" name="numero" class="form-control" placeholder="Auto">
+          </div>
+          <div class="col-md-2 mb-2">
+            <label class="font-weight-bold">Ano</label>
+            <input type="number" name="ano" class="form-control" value="2026">
+          </div>
+          <div class="col-md-4 mb-2">
+            <label class="font-weight-bold">Autor</label>
+            <select name="autor_id" class="form-control">
+              <% parlamentares.forEach(p => { %>
+                <option value="<%= p.id %>"><%= p.nome_parlamentar %> (<%= p.partido %>)</option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <div class="form-group mt-2">
+          <label class="font-weight-bold">Ementa</label>
+          <textarea name="ementa" class="form-control" rows="2" required placeholder="Descreva a ementa da proposição..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-success btn-sm">Salvar Matéria</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<form method="GET" action="/materia/pesquisar-materia" class="card card-body mb-4">
+  <div class="row align-items-end">
+    <div class="col-md-3 mb-2">
+      <label class="font-weight-bold mb-1">Tipo</label>
+      <select name="tipo" class="form-control">
+        <option value="">Todos</option>
+        <% tiposMateria.forEach(t => { %>
+          <option value="<%= t.id %>" <%= String(filters.tipo) === String(t.id) ? 'selected' : '' %>><%= t.sigla %> — <%= t.descricao %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="col-md-2 mb-2">
+      <label class="font-weight-bold mb-1">Número</label>
+      <input type="text" name="numero" value="<%= filters.numero %>" class="form-control" placeholder="Ex: 42">
+    </div>
+    <div class="col-md-2 mb-2">
+      <label class="font-weight-bold mb-1">Ano</label>
+      <input type="text" name="ano" value="<%= filters.ano %>" class="form-control" placeholder="Ex: 2026">
+    </div>
+    <div class="col-md-3 mb-2">
+      <label class="font-weight-bold mb-1">Ementa / Assunto</label>
+      <input type="text" name="ementa" value="<%= filters.ementa %>" class="form-control" placeholder="Palavra-chave...">
+    </div>
+    <div class="col-md-2 mb-2">
+      <button type="submit" class="btn btn-primary btn-block">Pesquisar</button>
+    </div>
+  </div>
+</form>
+
+<p class="text-muted">Foram encontradas <strong><%= materias.length %></strong> matéria(s).</p>
+
+<div class="list-group">
+  <% if (materias.length === 0) { %>
+    <div class="list-group-item text-center text-muted py-4">Nenhuma matéria encontrada.</div>
+  <% } %>
+  <% materias.forEach(m => { %>
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+        <h5 class="mb-0">
+          <a href="/materia/<%= m.id %>"><%= m.tipo_sigla %> <%= m.numero %>/<%= m.ano %> — <%= m.tipo_descricao %></a>
+        </h5>
+        <span class="badge <%= m.em_tramitacao ? 'badge-warning' : 'badge-secondary' %>">
+          <%= m.em_tramitacao ? 'Em Tramitação' : 'Encerrada' %>
+        </span>
+      </div>
+      <p class="mb-1"><%= m.ementa %></p>
+      <small class="text-muted">
+        Autor: <strong><%= m.autor_nome %></strong> •
+        Apresentação: <%= m.data_apresentacao %> •
+        Localização: <strong><%= m.localizacao %></strong> •
+        Status: <%= m.status %>
+      </small>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('partials/footer') %>

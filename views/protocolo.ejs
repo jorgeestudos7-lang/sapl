@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="page-header mb-1">Protocolo e Documentos Administrativos</h1>
+    <p class="text-muted mb-0">Registro de protocolos gerais e tramitação de documentos administrativos.</p>
+  </div>
+  <button class="btn btn-success btn-sm" type="button" data-toggle="collapse" data-target="#novoProtocoloForm">
+    <i class="fas fa-plus mr-1"></i> Novo Protocolo
+  </button>
+</div>
+
+<div class="collapse mb-4" id="novoProtocoloForm">
+  <div class="card border-success">
+    <div class="card-header bg-success text-white font-weight-bold">Registrar Protocolo</div>
+    <div class="card-body">
+      <form method="POST" action="/protocoloadm/create">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <label class="font-weight-bold">Tipo de Protocolo</label>
+            <select name="tipo_protocolo" class="form-control">
+              <option value="Administrativo">Administrativo</option>
+              <option value="Legislativo">Legislativo</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-2">
+            <label class="font-weight-bold">Tipo de Documento</label>
+            <input type="text" name="tipo_documento" class="form-control" value="Ofício" required>
+          </div>
+          <div class="col-md-4 mb-2">
+            <label class="font-weight-bold">Interessado</label>
+            <input type="text" name="interessado" class="form-control" required placeholder="Nome ou órgão...">
+          </div>
+        </div>
+        <div class="form-group mt-2">
+          <label class="font-weight-bold">Assunto / Ementa</label>
+          <input type="text" name="assunto" class="form-control" required placeholder="Descrição do documento...">
+        </div>
+        <button type="submit" class="btn btn-success btn-sm">Protocolar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<form method="GET" action="/protocoloadm/" class="form-inline mb-4">
+  <input type="text" name="q" value="<%= q %>" class="form-control mr-2" style="min-width: 280px;" placeholder="Buscar protocolo, número ou interessado...">
+  <button type="submit" class="btn btn-primary">Pesquisar</button>
+</form>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header font-weight-bold">Protocolos (<%= protocolos.length %>)</div>
+      <ul class="list-group list-group-flush">
+        <% protocolos.forEach(p => { %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <strong>Nº <%= p.numero %>/<%= p.ano %> — <%= p.tipo_documento %></strong>
+              <span class="badge badge-info"><%= p.tipo_protocolo %></span>
+            </div>
+            <p class="small mb-1"><%= p.assunto %></p>
+            <small class="text-muted">Data: <%= p.data %> <%= p.hora %> • Interessado: <%= p.interessado %></small>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header font-weight-bold">Documentos Administrativos (<%= documentos.length %>)</div>
+      <ul class="list-group list-group-flush">
+        <% documentos.forEach(d => { %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <strong><%= d.tipo_sigla %> <%= d.numero %>/<%= d.ano %> — <%= d.tipo_nome %></strong>
+              <span class="badge <%= d.em_tramitacao ? 'badge-warning' : 'badge-secondary' %>"><%= d.em_tramitacao ? 'Em Tramitação' : 'Arquivado' %></span>
+            </div>
+            <p class="small mb-1"><%= d.assunto %></p>
+            <small class="text-muted">Data: <%= d.data %> • Interessado: <%= d.interessado %></small>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

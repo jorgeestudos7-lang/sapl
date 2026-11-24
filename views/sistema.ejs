@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+<h1 class="page-header">Sistema e Tabelas Auxiliares</h1>
+<p class="text-muted">Informações institucionais da Casa Legislativa e tabelas de referência do SAPL.</p>
+
+<div class="card mb-4">
+  <div class="card-header font-weight-bold">Casa Legislativa</div>
+  <div class="card-body">
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Nome</dt><dd class="col-sm-9"><%= casa.nome %> (<%= casa.sigla %>)</dd>
+      <dt class="col-sm-3">Município / UF</dt><dd class="col-sm-9"><%= casa.municipio %> / <%= casa.uf %></dd>
+      <dt class="col-sm-3">Endereço</dt><dd class="col-sm-9"><%= casa.endereco %></dd>
+      <dt class="col-sm-3">E-mail</dt><dd class="col-sm-9"><%= casa.email %></dd>
+      <dt class="col-sm-3">Versão SAPL</dt><dd class="col-sm-9"><%= casa.versao %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Legislaturas</div>
+      <ul class="list-group list-group-flush">
+        <% legislaturas.forEach(l => { %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><%= l.__str__ %></span>
+            <small class="text-muted"><%= l.data_inicio %> a <%= l.data_fim %></small>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header font-weight-bold">Partidos Políticos</div>
+      <div class="card-body">
+        <% partidos.forEach(p => { %>
+          <span class="badge badge-secondary mr-1 mb-1"><%= p.sigla %> — <%= p.nome %></span>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

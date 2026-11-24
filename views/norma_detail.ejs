@@ -1,0 +1,41 @@
+<%- include('partials/header', { extraCss: '/static/sapl/frontend/css/compilacao.0baf3580.css' }) %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/">Início</a></li>
+    <li class="breadcrumb-item"><a href="/norma/pesquisar">Normas Jurídicas</a></li>
+    <li class="breadcrumb-item active"><%= norma.tipo_descricao %> nº <%= norma.numero %>/<%= norma.ano %></li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-header font-weight-bold">
+    <%= norma.tipo_descricao %> nº <%= norma.numero %>, de <%= norma.data %>
+  </div>
+  <div class="card-body">
+    <p class="lead"><%= norma.ementa %></p>
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Esfera da Federação</dt>
+      <dd class="col-sm-9"><%= norma.esfera_federacao %></dd>
+      <dt class="col-sm-3">Data de Publicação</dt>
+      <dd class="col-sm-9"><%= norma.data_publicacao %></dd>
+      <dt class="col-sm-3">Assuntos</dt>
+      <dd class="col-sm-9"><%= norma.assuntos.join(', ') %></dd>
+      <% if (materia) { %>
+        <dt class="col-sm-3">Matéria Originária</dt>
+        <dd class="col-sm-9"><a href="/materia/<%= materia.id %>"><%= materia.tipo_sigla %> <%= materia.numero %>/<%= materia.ano %></a></dd>
+      <% } %>
+    </dl>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header font-weight-bold">Texto Compilado</div>
+  <div class="card-body bg-white">
+    <% norma.texto_compilado.forEach(art => { %>
+      <p class="mb-2"><strong><%= art.artigo %></strong> <%= art.texto %></p>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('partials/footer', { extraJs: '/static/sapl/frontend/js/compilacao.148cb66b.js' }) %>

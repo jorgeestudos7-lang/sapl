@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/">Início</a></li>
+    <li class="breadcrumb-item"><a href="/sessao/pesquisar-sessao">Sessões Plenárias</a></li>
+    <li class="breadcrumb-item active"><%= sessao.numero %>ª <%= sessao.tipo %></li>
+  </ol>
+</nav>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h2 mb-1"><%= sessao.__str__ %></h1>
+    <p class="text-muted mb-0">Data: <%= sessao.data_inicio %> • Início: <%= sessao.hora_inicio %></p>
+  </div>
+  <a href="/painel-principal/<%= sessao.id %>" class="btn btn-dark btn-sm">
+    <i class="fas fa-tv mr-1"></i> Abrir Painel Plenário
+  </a>
+</div>
+
+<div class="row">
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-header font-weight-bold">Parlamentares Presentes (<%= presentes.length %>)</div>
+      <ul class="list-group list-group-flush">
+        <% presentes.forEach(p => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+            <a href="/parlamentar/<%= p.id %>"><%= p.nome_parlamentar %></a>
+            <span class="badge badge-secondary"><%= p.partido %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-8 mb-4">
+    <div class="card mb-4">
+      <div class="card-header font-weight-bold">Ordem do Dia</div>
+      <ul class="list-group list-group-flush">
+        <% if (ordemDia.length === 0) { %>
+          <li class="list-group-item text-muted">Nenhuma matéria na Ordem do Dia.</li>
+        <% } %>
+        <% ordemDia.forEach(item => { %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <strong><%= item.numero_ordem %>.
+                <% if (item.materia) { %>
+                  <a href="/materia/<%= item.materia.id %>"><%= item.materia.tipo_sigla %> <%= item.materia.numero %>/<%= item.materia.ano %></a>
+                <% } %>
+              </strong>
+              <span class="badge <%= item.votacao_aberta ? 'badge-success' : 'badge-info' %>">
+                <%= item.votacao_aberta ? 'Votação Aberta' : item.resultado %>
+              </span>
+            </div>
+            <% if (item.materia) { %><p class="small mb-1"><%= item.materia.ementa %></p><% } %>
+            <small class="text-muted"><%= item.observacao %></small>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Matérias do Expediente</div>
+      <ul class="list-group list-group-flush">
+        <% if (expediente.length === 0) { %>
+          <li class="list-group-item text-muted">Nenhuma matéria no Expediente.</li>
+        <% } %>
+        <% expediente.forEach(item => { %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <strong><%= item.numero_ordem %>.
+                <% if (item.materia) { %>
+                  <a href="/materia/<%= item.materia.id %>"><%= item.materia.tipo_sigla %> <%= item.materia.numero %>/<%= item.materia.ano %></a>
+                <% } %>
+              </strong>
+              <span class="badge badge-secondary"><%= item.resultado %></span>
+            </div>
+            <% if (item.materia) { %><p class="small mb-0"><%= item.materia.ementa %></p><% } %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

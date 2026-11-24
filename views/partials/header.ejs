@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title><%= title %></title>
+  <meta name="description" content="Sistema de Apoio ao Processo Legislativo (SAPL) — <%= casa.nome %>">
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="Sistema de Apoio ao Processo Legislativo (SAPL) — <%= casa.nome %>">
+  <link rel="icon" href="/static/sapl/frontend/img/favicon.ico">
+  <link rel="stylesheet" href="/static/sapl/frontend/css/chunk-vendors.045ec640.css">
+  <link rel="stylesheet" href="/static/sapl/frontend/css/global.042f6737.css">
+  <% if (typeof extraCss !== 'undefined' && extraCss) { %>
+    <link rel="stylesheet" href="<%= extraCss %>">
+  <% } %>
+</head>
+<body>
+  <header class="masthead bg-light border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="/">
+          <img src="/static/sapl/frontend/img/brasao_transp.gif" alt="Brasão" class="img-responsive mr-2">
+          <div class="vcenter">
+            <span class="font-weight-bold d-block"><%= casa.nome %></span>
+            <small class="d-block">SAPL — Sistema de Apoio ao Processo Legislativo</small>
+          </div>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+          <a href="/painel-principal/1" class="btn btn-sm btn-outline-info mr-2">
+            <i class="fas fa-tv mr-1"></i> Painel Plenário
+          </a>
+          <a href="/login/" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-sign-in-alt mr-1"></i> Entrar
+          </a>
+        </div>
+      </div>
+
+      <nav class="navbar navbar-expand-lg navbar-light px-0 pt-1 pb-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#saplNavbar" aria-controls="saplNavbar" aria-expanded="false" aria-label="Alternar navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="saplNavbar">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navInstitucional" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Institucional
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navInstitucional">
+                <a class="dropdown-item" href="/parlamentar/">Parlamentares</a>
+                <a class="dropdown-item" href="/mesa-diretora/">Mesa Diretora</a>
+                <a class="dropdown-item" href="/comissao/">Comissões</a>
+                <a class="dropdown-item" href="/audiencia/">Audiências Públicas</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navProcesso" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Atividade Legislativa
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navProcesso">
+                <a class="dropdown-item" href="/materia/pesquisar-materia">Matérias Legislativas</a>
+                <a class="dropdown-item" href="/sessao/pesquisar-sessao">Sessões Plenárias</a>
+                <a class="dropdown-item" href="/sessao/pauta-sessao/pesquisar">Pautas das Sessões</a>
+                <a class="dropdown-item" href="/painel-principal/1">Painel Eletrônico</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/norma/pesquisar">Normas Jurídicas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/protocoloadm/">Protocolo / Doc. Adm.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/relatorios/">Relatórios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sistema/">Sistema</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action="/materia/pesquisar-materia" method="GET">
+            <input class="form-control form-control-sm mr-sm-2" type="search" name="ementa" placeholder="Pesquisar matéria..." aria-label="Pesquisar">
+            <button class="btn btn-sm btn-outline-primary my-2 my-sm-0" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4">

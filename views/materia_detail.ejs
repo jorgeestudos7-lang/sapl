@@ -1,0 +1,100 @@
+<%- include('partials/header') %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-light">
+    <li class="breadcrumb-item"><a href="/">Início</a></li>
+    <li class="breadcrumb-item"><a href="/materia/pesquisar-materia">Matérias Legislativas</a></li>
+    <li class="breadcrumb-item active"><%= materia.tipo_sigla %> <%= materia.numero %>/<%= materia.ano %></li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span class="font-weight-bold"><%= materia.tipo_descricao %> nº <%= materia.numero %>/<%= materia.ano %></span>
+    <span class="badge <%= materia.em_tramitacao ? 'badge-warning' : 'badge-secondary' %>">
+      <%= materia.em_tramitacao ? 'Em Tramitação' : 'Tramitação Encerrada' %>
+    </span>
+  </div>
+  <div class="card-body">
+    <p class="lead"><%= materia.ementa %></p>
+    <dl class="row mb-0">
+      <dt class="col-sm-3">Autor</dt>
+      <dd class="col-sm-9">
+        <% if (autor) { %>
+          <a href="/parlamentar/<%= autor.id %>"><%= autor.nome_parlamentar %> (<%= autor.partido %>)</a>
+        <% } else { %>
+          <%= materia.autor_nome %>
+        <% } %>
+      </dd>
+      <dt class="col-sm-3">Data de Apresentação</dt>
+      <dd class="col-sm-9"><%= materia.data_apresentacao %></dd>
+      <dt class="col-sm-3">Regime de Tramitação</dt>
+      <dd class="col-sm-9"><%= materia.regime_tramitacao %></dd>
+      <dt class="col-sm-3">Localização Atual</dt>
+      <dd class="col-sm-9"><%= materia.localizacao %></dd>
+      <dt class="col-sm-3">Situação Atual</dt>
+      <dd class="col-sm-9"><%= materia.status %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header font-weight-bold">Histórico de Tramitação</div>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped mb-0">
+      <thead class="thead-light">
+        <tr>
+          <th>Data</th>
+          <th>Origem</th>
+          <th>Destino</th>
+          <th>Status</th>
+          <th>Despacho / Texto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% materia.tramitacoes.forEach(t => { %>
+          <tr>
+            <td><%= t.data %></td>
+            <td><%= t.origem %></td>
+            <td><%= t.destino %></td>
+            <td><span class="badge badge-info"><%= t.status %></span></td>
+            <td><%= t.texto %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header font-weight-bold">Registrar Nova Tramitação</div>
+  <div class="card-body">
+    <form method="POST" action="/materia/<%= materia.id %>/tramitacao">
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <label class="font-weight-bold">Unidade de Origem</label>
+          <input type="text" name="origem" class="form-control" value="<%= materia.localizacao %>" required>
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="font-weight-bold">Unidade de Destino</label>
+          <input type="text" name="destino" class="form-control" placeholder="Ex: Plenário, CCJR..." required>
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="font-weight-bold">Status</label>
+          <select name="status" class="form-control">
+            <% statusList.forEach(s => { %>
+              <option value="<%= s.descricao %>"><%= s.descricao %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <label class="font-weight-bold">Texto da Tramitação</label>
+        <input type="text" name="texto" class="form-control" placeholder="Observações do despacho...">
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Adicionar Tramitação</button>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
